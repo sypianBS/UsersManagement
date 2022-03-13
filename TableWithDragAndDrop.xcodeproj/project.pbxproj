@@ -15,6 +15,9 @@
 		C379E6BB27DCFB8600B75FFA /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6BA27DCFB8600B75FFA /* FavoritesViewController.swift */; };
 		C379E6BD27DCFBA300B75FFA /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6BC27DCFBA300B75FFA /* MainListViewController.swift */; };
 		C379E6BF27DCFBAF00B75FFA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6BE27DCFBAF00B75FFA /* SettingsViewController.swift */; };
+		C379E6C227DD10AA00B75FFA /* UtilNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */; };
+		C379E6C427DDC62F00B75FFA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6C327DDC62F00B75FFA /* User.swift */; };
+		C379E6C627DDEC0700B75FFA /* Users.json in Resources */ = {isa = PBXBuildFile; fileRef = C379E6C527DDEC0700B75FFA /* Users.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		C379E6BA27DCFB8600B75FFA /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		C379E6BC27DCFBA300B75FFA /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		C379E6BE27DCFBAF00B75FFA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNetwork.swift; sourceTree = "<group>"; };
+		C379E6C327DDC62F00B75FFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C379E6C527DDEC0700B75FFA /* Users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Users.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,9 @@
 				C379E6AF27DCF85400B75FFA /* Assets.xcassets */,
 				C379E6B127DCF85400B75FFA /* LaunchScreen.storyboard */,
 				C379E6B427DCF85400B75FFA /* Info.plist */,
+				C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */,
+				C379E6C327DDC62F00B75FFA /* User.swift */,
+				C379E6C527DDEC0700B75FFA /* Users.json */,
 			);
 			path = TableWithDragAndDrop;
 			sourceTree = "<group>";
@@ -139,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C379E6C627DDEC0700B75FFA /* Users.json in Resources */,
 				C379E6B327DCF85400B75FFA /* LaunchScreen.storyboard in Resources */,
 				C379E6B027DCF85400B75FFA /* Assets.xcassets in Resources */,
 			);
@@ -155,7 +165,9 @@
 				C379E6A727DCF85100B75FFA /* AppDelegate.swift in Sources */,
 				C379E6BB27DCFB8600B75FFA /* FavoritesViewController.swift in Sources */,
 				C379E6BD27DCFBA300B75FFA /* MainListViewController.swift in Sources */,
+				C379E6C427DDC62F00B75FFA /* User.swift in Sources */,
 				C379E6A927DCF85100B75FFA /* SceneDelegate.swift in Sources */,
+				C379E6C227DD10AA00B75FFA /* UtilNetwork.swift in Sources */,
 				C379E6BF27DCFBAF00B75FFA /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

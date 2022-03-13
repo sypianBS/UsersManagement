@@ -10,6 +10,8 @@ import UIKit
 import UIKit
 class ViewController: UITabBarController {
     
+    let users: [User] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
