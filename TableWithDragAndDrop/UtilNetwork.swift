@@ -8,43 +8,37 @@
 import Foundation
 import Combine
 
-func fetch(url: URL) -> AnyPublisher<Data, FetchOrParseError> {
+func fetch(url: URL) -> AnyPublisher<Data, Error> {
     let request = URLRequest(url: url)
 
     return URLSession.DataTaskPublisher(request: request, session: .shared)
         .tryMap { data, response in
             guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
-                throw FetchOrParseError.unknown
+                throw FetchError.unknown
             }
             return data
         }
         .mapError { error in
-            if let error = error as? FetchOrParseError {
+            if let error = error as? FetchError {
                 return error
             } else {
-                return FetchOrParseError.fetchError(reason: error.localizedDescription)
+                return FetchError.fetchError(reason: error.localizedDescription)
             }
         }
         .eraseToAnyPublisher()
 }
 
-func decodeJSON<T: Decodable>(url: URL) -> AnyPublisher<T, FetchOrParseError> {
+func decodeJSON<T: Decodable>(url: URL, locaFileName: String) -> AnyPublisher<T, Error> {
     fetch(url: url)
+    //use a local file if an fetch error occured
+        .replaceError(with: try! Data(contentsOf: Bundle.main.url(forResource: locaFileName, withExtension: "json")!))
         .decode(type: T.self, decoder: JSONDecoder())
-        .mapError { error in
-            if let error = error as? DecodingError, let errorMessage = error.errorDescription {
-                return FetchOrParseError.jsonParseError(reason: errorMessage)
-            }  else {
-                return FetchOrParseError.fetchError(reason: error.localizedDescription)
-            }
-        }
         .eraseToAnyPublisher()
 }
 
-enum FetchOrParseError: Error, LocalizedError {
+enum FetchError: Error, LocalizedError {
     case unknown
     case fetchError(reason: String)
-    case jsonParseError(reason: String)
 
     var errorDescription: String? {
         switch self {
@@ -52,8 +46,6 @@ enum FetchOrParseError: Error, LocalizedError {
             return "unknown error"
         case .fetchError(let reason):
             return "fetch error \(reason)"
-        case .jsonParseError(let reason):
-            return "json parse error \(reason)"
         }
     }
 }

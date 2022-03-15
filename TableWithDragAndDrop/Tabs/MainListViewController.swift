@@ -11,6 +11,7 @@ import Combine
 class MainListViewController: UIViewController {
     
     private var users: [User] = []
+    let localJSONFileName = "Users"
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -35,7 +36,7 @@ class MainListViewController: UIViewController {
         tableView.dataSource = self
         tableView.frame = view.bounds
         if let url = usersListURLComponents.url {
-            decodeJSON(url: url)
+            decodeJSON(url: url, locaFileName: localJSONFileName)
                 .receive(on: RunLoop.main) //for updating UI, main thread is needed
                 .sink(receiveCompletion: { completion in
                     switch completion {
