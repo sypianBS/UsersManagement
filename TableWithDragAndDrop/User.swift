@@ -7,12 +7,22 @@
 
 import Foundation
 
-struct User: Codable {
-    let id: Int?
-    let name, username, email: String?
+struct User: Codable, Comparable {
+    let id: Int
+    let name, username, email: String
     let address: Address?
     let phone, website: String?
     let company: Company?
+    
+    //needed for sorting
+    static func < (lhs: User, rhs: User) -> Bool {
+        return lhs.name < rhs.name
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
+
 }
 
 struct Address: Codable {

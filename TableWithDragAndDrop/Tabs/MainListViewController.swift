@@ -10,6 +10,13 @@ import Combine
 
 class MainListViewController: UIViewController {
     
+    struct Section {
+        let letter : String
+        let users : [User]
+    }
+    
+    var sections = [Section]()
+    
     private var users: [User] = []
     let localJSONFileName = "Users"
     
@@ -47,20 +54,41 @@ class MainListViewController: UIViewController {
                     }
                 }, receiveValue: { (users: [User]) in
                     self.users = users
+                    //alphabetical sort based on https://stackoverflow.com/questions/28087688/alphabetical-sections-in-table-table-view-in-swift
+                    let groupedUsersDictionary = Dictionary(grouping: users, by: {String($0.name.prefix(1))})
+                       let keys = groupedUsersDictionary.keys.sorted()
+                    self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
                     self.tableView.reloadData()
                 }).store(in: &observers)
-        }               
+        }
     }
 }
 
 extension MainListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = users[indexPath.row].name
+        let section = sections[indexPath.section]
+        let user = section.users[indexPath.row]
+        cell.textLabel?.text = user.name
         return cell
+    }
+}
+
+//sections
+extension MainListViewController {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].users.count
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sections.map{$0.letter}
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].letter
     }
 }
