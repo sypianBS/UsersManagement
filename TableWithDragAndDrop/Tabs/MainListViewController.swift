@@ -54,8 +54,8 @@ class MainListViewController: UIViewController {
                     }
                 }, receiveValue: { (users: [User]) in
                     self.users = users
-                    //alphabetical sort based on https://stackoverflow.com/questions/28087688/alphabetical-sections-in-table-table-view-in-swift
-                    let groupedUsersDictionary = Dictionary(grouping: users, by: {String($0.name.prefix(1))})
+                    //alphabetical sort based on https://stackoverflow.com/questions/28087688/alphabetical-sections-in-table-table-view-in-swift it also considers the fact that the surname is the last word of the name property (e.g. Schulist in Mrs. Dennis Schulist)
+                    let groupedUsersDictionary = Dictionary(grouping: users, by: {String($0.name.components(separatedBy: " ").last?.prefix(1) ?? "")})
                        let keys = groupedUsersDictionary.keys.sorted()
                     self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
                     self.tableView.reloadData()
