@@ -45,6 +45,8 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Users"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         setupSearchController()
         

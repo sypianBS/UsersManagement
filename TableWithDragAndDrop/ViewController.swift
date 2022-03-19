@@ -36,8 +36,8 @@ class ViewController: UITabBarController {
         
         settingsTab.tabBarItem = settingsTabBarItem
         
-        
         self.viewControllers = [favoritesTab, mainListTab, settingsTab]
+        self.selectedIndex = 1 //start point is the middle tab
     }
         
 }
