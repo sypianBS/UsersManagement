@@ -13,6 +13,7 @@ class MainListViewController: UIViewController {
     private var users: [User] = []
     private var filteredUsers: [User] = []
     private let localJSONFileName = "Users"
+    private var cancellables: Set<AnyCancellable> = []
     let searchController = UISearchController(searchResultsController: nil)
     var observers: [AnyCancellable] = []
     
@@ -74,12 +75,31 @@ class MainListViewController: UIViewController {
     }
     
     private func setupSearchController() {
-        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search users"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+        setupSearchBarChangePublisher()
+    }
+    
+    private func setupSearchBarChangePublisher() {
+
+        let publisher = NotificationCenter.default.publisher(for: UISearchTextField.textDidChangeNotification, object: searchController.searchBar.searchTextField)
+        publisher
+            .map {
+                ($0.object as! UISearchTextField).text
+            }
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main) //publish after 0.3s from the last incoming letter. Not necessarily needed in this case since there are no following http requests etc., but just keep for the sake of interest
+            .sink { (searchText) in
+                guard let searchText = searchText else {
+                    return
+                }
+                self.filteredUsers = self.users.filter({ user in
+                    return user.name.lowercased().contains(searchText.lowercased())
+                })
+                self.tableView.reloadData()
+            }.store(in: &cancellables)
     }
     
     struct Section {
@@ -130,16 +150,5 @@ extension MainListViewController {
             return nil
         }
         return sections[section].letter
-    }
-}
-
-extension MainListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        let searchBar = searchController.searchBar
-        let searchText = searchBar.text!
-        filteredUsers = users.filter({ user in
-            return user.name.lowercased().contains(searchText.lowercased())
-        })
-        tableView.reloadData()
     }
 }
