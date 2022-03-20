@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C331A1D027E75C31004BE60C /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C331A1CF27E75C31004BE60C /* UserTableViewCell.swift */; };
 		C379E6A727DCF85100B75FFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6A627DCF85100B75FFA /* AppDelegate.swift */; };
 		C379E6A927DCF85100B75FFA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6A827DCF85100B75FFA /* SceneDelegate.swift */; };
 		C379E6AB27DCF85100B75FFA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6AA27DCF85100B75FFA /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C331A1CF27E75C31004BE60C /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		C379E6A327DCF85100B75FFA /* TableWithDragAndDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableWithDragAndDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C379E6A627DCF85100B75FFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C379E6A827DCF85100B75FFA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */,
 				C379E6C327DDC62F00B75FFA /* User.swift */,
 				C379E6C527DDEC0700B75FFA /* Users.json */,
+				C331A1CF27E75C31004BE60C /* UserTableViewCell.swift */,
 			);
 			path = TableWithDragAndDrop;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C379E6AB27DCF85100B75FFA /* ViewController.swift in Sources */,
+				C331A1D027E75C31004BE60C /* UserTableViewCell.swift in Sources */,
 				C379E6A727DCF85100B75FFA /* AppDelegate.swift in Sources */,
 				C379E6BB27DCFB8600B75FFA /* FavoritesViewController.swift in Sources */,
 				C379E6BD27DCFBA300B75FFA /* MainListViewController.swift in Sources */,

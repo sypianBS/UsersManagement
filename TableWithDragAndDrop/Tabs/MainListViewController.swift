@@ -31,7 +31,13 @@ class MainListViewController: UIViewController {
     
     private let tableView: UITableView = {
         let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(UserTableViewCell.self, forCellReuseIdentifier: "cell")
+        table.separatorStyle = .none
+        table.estimatedRowHeight = 20
+        table.rowHeight = UITableView.automaticDimension
+
+        table.sectionHeaderHeight =  UITableView.automaticDimension
+        table.estimatedSectionHeaderHeight = 25;
         return table
     }()
     
@@ -70,7 +76,6 @@ class MainListViewController: UIViewController {
                     let groupedUsersDictionary = Dictionary(grouping: users, by: {String($0.name.components(separatedBy: " ").last?.prefix(1) ?? "")})
                        let keys = groupedUsersDictionary.keys.sorted()
                     self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
-                  //  self.filteredSections = self.sections
                     self.tableView.reloadData()
                 }).store(in: &observers)
         }
@@ -112,14 +117,18 @@ class MainListViewController: UIViewController {
 
 extension MainListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UserTableViewCell else {
+            return UITableViewCell()
+        }
         if !isFiltering {
             let section = sections[indexPath.section]
             let user = section.users[indexPath.row]
-            cell.textLabel?.text = user.name
+            cell.nameLabel.text = user.name
+            cell.companyLabel.text = user.company?.name
         } else {
             let user = filteredUsers[indexPath.row]
-            cell.textLabel?.text = user.name
+            cell.nameLabel.text = user.name
+            cell.companyLabel.text = user.company?.name
         }
         return cell
     }
@@ -154,3 +163,5 @@ extension MainListViewController {
         return sections[section].letter
     }
 }
+
+
