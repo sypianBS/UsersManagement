@@ -16,6 +16,7 @@ class MainListViewController: UIViewController {
     private var cancellables: Set<AnyCancellable> = []
     let searchController = UISearchController(searchResultsController: nil)
     var observers: [AnyCancellable] = []
+    var favoritesSet: Set<Int> = []
     
     var sections = [Section]()
     
@@ -120,11 +121,21 @@ extension MainListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UserTableViewCell else {
             return UITableViewCell()
         }
+
         if !isFiltering {
             let section = sections[indexPath.section]
             let user = section.users[indexPath.row]
             cell.nameLabel.text = user.name
             cell.companyLabel.text = user.company?.name
+            cell.favoriteButtonAction = { [unowned self] in
+                //add if not containing, remove if containing - this will toggle the behavior of tapping on the favorite
+                if !favoritesSet.insert(user.id).inserted {
+                    favoritesSet.remove(user.id)
+                    cell.unmarkAsFavorite()
+                } else {
+                    cell.markAsFavorite()
+                }
+            }
         } else {
             let user = filteredUsers[indexPath.row]
             cell.nameLabel.text = user.name

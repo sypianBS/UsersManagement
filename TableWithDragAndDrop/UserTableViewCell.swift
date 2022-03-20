@@ -14,6 +14,7 @@ class UserTableViewCell: UITableViewCell {
     let nameLabel = UILabel()
     let companyLabel = UILabel()
     let favoriteButton = UIButton()
+    var favoriteButtonAction: (() -> ())?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,7 +39,7 @@ class UserTableViewCell: UITableViewCell {
         companyLabel.translatesAutoresizingMaskIntoConstraints = false
         companyLabel.textColor = .gray
                
-        favoriteButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        favoriteButton.addTarget(self, action: #selector(toggleFavoriteButtonImage), for: .touchUpInside)
         let image = UIImage(systemName: "star")
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         favoriteButton.setBackgroundImage(image, for: .normal)
@@ -61,9 +62,16 @@ class UserTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func buttonAction() {
-        let image = UIImage(systemName: "star.fill")
-        favoriteButton.setImage(image, for: .normal)
+    func markAsFavorite() {
+        favoriteButton.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal)
+    }
+    
+    func unmarkAsFavorite() {
+        favoriteButton.setBackgroundImage(UIImage(systemName: "star"), for: .normal)
+    }
+    
+    @objc func toggleFavoriteButtonImage() {
+        favoriteButtonAction?()
     }
     
 }
