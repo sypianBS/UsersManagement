@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Codable, Comparable {
+struct User: Codable, Comparable, Hashable {
     let id: Int
     let name, username, email: String
     let address: Address?
@@ -21,6 +21,10 @@ struct User: Codable, Comparable {
     
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 
 }

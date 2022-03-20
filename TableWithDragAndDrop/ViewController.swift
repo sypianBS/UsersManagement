@@ -20,7 +20,7 @@ class ViewController: UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let favoritesTab = FavoritesViewController()
+        let favoritesTab = UINavigationController(rootViewController: FavoritesViewController())
         let favoritesTabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star"), selectedImage: UIImage(systemName: "star.fill"))
         
         favoritesTab.tabBarItem = favoritesTabBarItem
