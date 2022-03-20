@@ -27,7 +27,7 @@ class ViewController: UITabBarController {
         
         //needed to show the search bar
         let mainListTab = UINavigationController(rootViewController: MainListViewController())
-        let mainListTabBarItem = UITabBarItem(title: "List", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
+        let mainListTabBarItem = UITabBarItem(title: "Users", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         
         mainListTab.tabBarItem = mainListTabBarItem
         
