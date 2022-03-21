@@ -14,9 +14,7 @@ class MainListViewController: UIViewController {
     private var filteredUsers: [User] = []
     private let localJSONFileName = "Users"
     private var cancellables: Set<AnyCancellable> = []
-    let searchController = UISearchController(searchResultsController: nil)
-    var observers: [AnyCancellable] = []
-    //var favoritesSet: Set<Int> = []
+    private let searchController = UISearchController(searchResultsController: nil)
     static var favoritesSet = CurrentValueSubject<Set<User>, Never>([])
     
     var sections = [Section]()
@@ -74,7 +72,7 @@ class MainListViewController: UIViewController {
                        let keys = groupedUsersDictionary.keys.sorted()
                     self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
                     self.tableView.reloadData()
-                }).store(in: &observers)
+                }).store(in: &cancellables)
         }
     }
     
@@ -123,14 +121,14 @@ extension MainListViewController: UITableViewDataSource {
             let user = section.users[indexPath.row]
             cell.nameLabel.text = user.name
             cell.companyLabel.text = user.company?.name
-            cell.favoriteButtonAction = { [unowned self] in
+            cell.favoriteButtonAction = {
                 //add if not containing, remove if containing - this will toggle the behavior of tapping on the favorite
 
-                if !MainListViewController.favoritesSet.value.insert(user).inserted {
+                if MainListViewController.favoritesSet.value.insert(user).inserted {
+                    cell.markAsFavorite()
+                } else {
                     MainListViewController.favoritesSet.value.remove(user)
                     cell.unmarkAsFavorite()
-                } else {
-                    cell.markAsFavorite()
                 }
             }
         } else {
