@@ -31,7 +31,7 @@ class ViewController: UITabBarController {
         
         mainListTab.tabBarItem = mainListTabBarItem
         
-        let settingsTab = SettingsViewController()
+        let settingsTab = UINavigationController(rootViewController: SettingsViewController())
         let settingsTabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape"))
         
         settingsTab.tabBarItem = settingsTabBarItem
