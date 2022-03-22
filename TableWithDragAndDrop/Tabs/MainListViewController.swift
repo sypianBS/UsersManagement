@@ -119,24 +119,35 @@ extension MainListViewController: UITableViewDataSource {
         if !isFiltering {
             let section = sections[indexPath.section]
             let user = section.users[indexPath.row]
-            cell.nameLabel.text = user.name
-            cell.companyLabel.text = user.company?.name
-            cell.favoriteButtonAction = {
-                //add if not containing, remove if containing - this will toggle the behavior of tapping on the favorite
-
-                if MainListViewController.favoritesSet.value.insert(user).inserted {
-                    cell.markAsFavorite()
-                } else {
-                    MainListViewController.favoritesSet.value.remove(user)
-                    cell.unmarkAsFavorite()
-                }
-            }
+            return setupCell(cell: cell, user: user)
         } else {
             let user = filteredUsers[indexPath.row]
-            cell.nameLabel.text = user.name
-            cell.companyLabel.text = user.company?.name
+            return setupCell(cell: cell, user: user)
+        }
+    }
+    
+    private func setupCell(cell: UserTableViewCell, user: User) -> UserTableViewCell {
+        cell.nameLabel.text = user.name
+        cell.companyLabel.text = user.company?.name
+        //additional check needed due to the filtered-unfiltered results table differences
+        if MainListViewController.favoritesSet.value.contains(user) {
+            cell.markAsFavorite()
+        } else {
+            cell.unmarkAsFavorite()
+        }
+        
+        cell.favoriteButtonAction = {
+            //add if not containing, remove if containing - this will toggle the behavior of tapping on the favorite
+
+            if MainListViewController.favoritesSet.value.insert(user).inserted {
+                cell.markAsFavorite()
+            } else {
+                MainListViewController.favoritesSet.value.remove(user)
+                cell.unmarkAsFavorite()
+            }
         }
         return cell
+
     }
 }
 
