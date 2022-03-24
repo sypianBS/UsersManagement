@@ -74,6 +74,10 @@ class MainListViewController: UIViewController {
                     self.tableView.reloadData()
                 }).store(in: &cancellables)
         }
+        
+        SettingsViewController.useLineSeparators.sink { useLineSeparators in
+            self.tableView.separatorStyle = useLineSeparators ? .singleLine : .none
+        }.store(in: &cancellables)
     }
     
     private func setupSearchController() {

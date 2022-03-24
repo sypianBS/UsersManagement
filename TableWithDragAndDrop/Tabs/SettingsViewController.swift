@@ -6,25 +6,31 @@
 //
 
 import UIKit
+import Combine
 
 class SettingsViewController: UIViewController {
+    
+    static var useLineSeparators = CurrentValueSubject<Bool, Never>(false)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.title = "Settings"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let useLineSeparatorsSwitch = UISwitch(frame:CGRect(x: 150, y: 150, width: 0, height: 0))
+        useLineSeparatorsSwitch.addTarget(self, action: #selector(self.respondToToggle(_:)), for: .valueChanged)
+        useLineSeparatorsSwitch.setOn(false, animated: false)
+        self.view.addSubview(useLineSeparatorsSwitch)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    @objc func respondToToggle(_ sender: UISwitch!)
+     {
+         if (sender.isOn == true){
+             SettingsViewController.useLineSeparators.send(true)
+         }
+         else{
+             SettingsViewController.useLineSeparators.send(false)
+         }
+     }
 }
