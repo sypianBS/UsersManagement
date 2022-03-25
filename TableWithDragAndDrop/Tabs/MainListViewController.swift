@@ -48,6 +48,7 @@ class MainListViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Users"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New user", style: .plain, target: self, action: #selector(showMyViewControllerInACustomizedSheet))
         
         setupSearchController()
         
@@ -106,6 +107,18 @@ class MainListViewController: UIViewController {
                 })
                 self.tableView.reloadData()
             }.store(in: &cancellables)
+    }
+    
+    @objc private func showMyViewControllerInACustomizedSheet() {
+        let viewControllerToPresent = AddUserViewController()
+        if let sheet = viewControllerToPresent.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+        present(viewControllerToPresent, animated: true, completion: nil)
     }
     
     struct Section {
