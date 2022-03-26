@@ -51,6 +51,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C331A1F327EEE5CF004BE60C /* LifecycleFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C379E6A627DCF85100B75FFA /* AppDelegate.swift */,
+				C379E6A827DCF85100B75FFA /* SceneDelegate.swift */,
+			);
+			path = LifecycleFiles;
+			sourceTree = "<group>";
+		};
+		C331A1F427EEE626004BE60C /* OtherViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C379E6AA27DCF85100B75FFA /* ViewController.swift */,
+				C331A1F127EE5D3A004BE60C /* AddUserViewController.swift */,
+			);
+			path = OtherViewControllers;
+			sourceTree = "<group>";
+		};
+		C331A1F527EEE655004BE60C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C379E6C327DDC62F00B75FFA /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C331A1F627EEE680004BE60C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		C379E69A27DCF85100B75FFA = {
 			isa = PBXGroup;
 			children = (
@@ -70,18 +104,16 @@
 		C379E6A527DCF85100B75FFA /* TableWithDragAndDrop */ = {
 			isa = PBXGroup;
 			children = (
+				C331A1F327EEE5CF004BE60C /* LifecycleFiles */,
 				C379E6C027DCFE2200B75FFA /* Tabs */,
-				C379E6A627DCF85100B75FFA /* AppDelegate.swift */,
-				C379E6A827DCF85100B75FFA /* SceneDelegate.swift */,
-				C379E6AA27DCF85100B75FFA /* ViewController.swift */,
+				C331A1F427EEE626004BE60C /* OtherViewControllers */,
+				C331A1F527EEE655004BE60C /* Model */,
+				C331A1F627EEE680004BE60C /* Utils */,
+				C331A1CF27E75C31004BE60C /* UserTableViewCell.swift */,
 				C379E6AF27DCF85400B75FFA /* Assets.xcassets */,
 				C379E6B127DCF85400B75FFA /* LaunchScreen.storyboard */,
 				C379E6B427DCF85400B75FFA /* Info.plist */,
-				C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */,
-				C379E6C327DDC62F00B75FFA /* User.swift */,
 				C379E6C527DDEC0700B75FFA /* Users.json */,
-				C331A1CF27E75C31004BE60C /* UserTableViewCell.swift */,
-				C331A1F127EE5D3A004BE60C /* AddUserViewController.swift */,
 			);
 			path = TableWithDragAndDrop;
 			sourceTree = "<group>";
