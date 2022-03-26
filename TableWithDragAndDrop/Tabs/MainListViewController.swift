@@ -112,11 +112,12 @@ class MainListViewController: UIViewController {
     @objc private func showMyViewControllerInACustomizedSheet() {
         let viewControllerToPresent = AddUserViewController()
         if let sheet = viewControllerToPresent.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
+            sheet.detents = [.large()] //large sheet size
             sheet.largestUndimmedDetentIdentifier = .medium
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.prefersEdgeAttachedInCompactHeight = true
             sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            sheet.preferredCornerRadius = 16
         }
         present(viewControllerToPresent, animated: true, completion: nil)
     }

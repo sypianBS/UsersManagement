@@ -19,6 +19,7 @@ class AddUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         let addFirstNameLabel = UILabel()
         addFirstNameLabel.translatesAutoresizingMaskIntoConstraints = false
