@@ -32,7 +32,6 @@ class MainListViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(UserTableViewCell.self, forCellReuseIdentifier: "cell")
-        table.separatorStyle = .none
         return table
     }()
     
@@ -80,6 +79,10 @@ class MainListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         let useLineSeparators = defaults.bool(forKey: UserDefaultsKeys.useLineSeparators)
         self.tableView.separatorStyle = useLineSeparators ? .singleLine : .none
+        
+        let useBlueSeparatorsColor = defaults.bool(forKey: UserDefaultsKeys.useBlueSeparatorsColor)
+        self.tableView.separatorColor = useBlueSeparatorsColor ? .blue : UITableView().separatorColor
+        
     }
     
     private func setupSearchController() {

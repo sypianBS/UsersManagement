@@ -10,6 +10,15 @@ import Combine
 
 class SettingsViewController: UIViewController {
     
+    var appearanceSettingsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
+        return stackView
+    }()
+    
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -18,13 +27,44 @@ class SettingsViewController: UIViewController {
         navigationItem.title = "Settings"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let useLineSeparatorsSwitch = UISwitch(frame:CGRect(x: 150, y: 150, width: 0, height: 0))
-        useLineSeparatorsSwitch.addTarget(self, action: #selector(self.respondToToggle(_:)), for: .valueChanged)
-        useLineSeparatorsSwitch.setOn(defaults.bool(forKey: UserDefaultsKeys.useLineSeparators), animated: false)
-        self.view.addSubview(useLineSeparatorsSwitch)
+        let useLineSeparatorsSwitch = makeLabelSwitchInputStackView(labelName: "Use line separators", switchTapTarget: #selector(self.setLineSeparators(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLineSeparators))
+        let useBlueSeparatorsColorSwitch = makeLabelSwitchInputStackView(labelName: "Blue separators color", switchTapTarget: #selector(self.useBlueSeparatorsColor(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLineSeparators))
+        
+        self.view.addSubview(appearanceSettingsStackView)
+        appearanceSettingsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        appearanceSettingsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48).isActive = true
+        appearanceSettingsStackView.addArrangedSubview(useLineSeparatorsSwitch)
+        appearanceSettingsStackView.addArrangedSubview(useBlueSeparatorsColorSwitch)
     }
     
-    @objc func respondToToggle(_ sender: UISwitch!){
+    @objc func setLineSeparators(_ sender: UISwitch!){
         defaults.set(sender.isOn, forKey: UserDefaultsKeys.useLineSeparators)
     }
+    
+    @objc func useBlueSeparatorsColor(_ sender: UISwitch!){
+        defaults.set(sender.isOn, forKey: UserDefaultsKeys.useBlueSeparatorsColor)
+    }
+    
+    private func makeLabelSwitchInputStackView(labelName: String, switchTapTarget: Selector, switchSetOn: Bool) -> UIStackView {
+        let labelTextInputStackView = UIStackView()
+        labelTextInputStackView.translatesAutoresizingMaskIntoConstraints = false
+        labelTextInputStackView.axis = .horizontal
+        labelTextInputStackView.spacing = 16
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = labelName + ":"
+        label.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        label.font = UIFont.systemFont(ofSize: 19)
+        
+        let uiswitch = UISwitch(frame:CGRect(x: 150, y: 150, width: 0, height: 0))
+        uiswitch.addTarget(self, action: switchTapTarget, for: .touchUpInside)
+        uiswitch.translatesAutoresizingMaskIntoConstraints = false
+        
+        labelTextInputStackView.addArrangedSubview(label)
+        labelTextInputStackView.addArrangedSubview(uiswitch)
+        
+        return labelTextInputStackView
+    }
+
 }
