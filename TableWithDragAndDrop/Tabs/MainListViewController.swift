@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 class MainListViewController: UIViewController {
-    
+    let defaults = UserDefaults.standard
     private var users: [User] = []
     private var filteredUsers: [User] = []
     private let localJSONFileName = "Users"
@@ -75,10 +75,11 @@ class MainListViewController: UIViewController {
                     self.tableView.reloadData()
                 }).store(in: &cancellables)
         }
-        
-        SettingsViewController.useLineSeparators.sink { useLineSeparators in
-            self.tableView.separatorStyle = useLineSeparators ? .singleLine : .none
-        }.store(in: &cancellables)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let useLineSeparators = defaults.bool(forKey: UserDefaultsKeys.useLineSeparators)
+        self.tableView.separatorStyle = useLineSeparators ? .singleLine : .none
     }
     
     private func setupSearchController() {

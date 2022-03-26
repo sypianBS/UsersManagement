@@ -10,8 +10,8 @@ import Combine
 
 class SettingsViewController: UIViewController {
     
-    static var useLineSeparators = CurrentValueSubject<Bool, Never>(false)
-
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,17 +20,11 @@ class SettingsViewController: UIViewController {
         
         let useLineSeparatorsSwitch = UISwitch(frame:CGRect(x: 150, y: 150, width: 0, height: 0))
         useLineSeparatorsSwitch.addTarget(self, action: #selector(self.respondToToggle(_:)), for: .valueChanged)
-        useLineSeparatorsSwitch.setOn(false, animated: false)
+        useLineSeparatorsSwitch.setOn(defaults.bool(forKey: UserDefaultsKeys.useLineSeparators), animated: false)
         self.view.addSubview(useLineSeparatorsSwitch)
     }
     
-    @objc func respondToToggle(_ sender: UISwitch!)
-     {
-         if (sender.isOn == true){
-             SettingsViewController.useLineSeparators.send(true)
-         }
-         else{
-             SettingsViewController.useLineSeparators.send(false)
-         }
-     }
+    @objc func respondToToggle(_ sender: UISwitch!){
+        defaults.set(sender.isOn, forKey: UserDefaultsKeys.useLineSeparators)
+    }
 }
