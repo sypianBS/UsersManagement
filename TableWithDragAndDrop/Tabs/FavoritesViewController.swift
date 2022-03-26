@@ -40,7 +40,7 @@ class FavoritesViewController: UIViewController {
 
 extension FavoritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MainListViewController.favoritesSet.value.count
+        MainListViewController.favoritesSet.value.count != 0 ? MainListViewController.favoritesSet.value.count : 1 //if there are no favorites, we show one row indicating that
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,7 +48,11 @@ extension FavoritesViewController: UITableViewDataSource {
         let sortedNames = Array(MainListViewController.favoritesSet.value).sorted(by: {
             $0.name.components(separatedBy: " ").last! < $1.name.components(separatedBy: " ").last!
         })
-        cell.textLabel?.text = sortedNames[indexPath.row].name
+        if sortedNames.count == 0 {
+            cell.textLabel?.text = "No favorite users"
+        } else {
+            cell.textLabel?.text = sortedNames[indexPath.row].name
+        }
         return cell
     }
     
