@@ -43,6 +43,15 @@ class AddUserViewController: UIViewController {
         newUserStackView.addArrangedSubview(firstNameInput)
         newUserStackView.addArrangedSubview(lastName)
         newUserStackView.addArrangedSubview(email)
+        
+        let addUserButton = makeRoundedButtonWithLabel(buttonStyle: .add)
+        let dismissButton = makeRoundedButtonWithLabel(buttonStyle: .discard)
+        view.addSubview(addUserButton)
+        view.addSubview(dismissButton)
+        addUserButton.topAnchor.constraint(equalTo: newUserStackView.bottomAnchor, constant: 40).isActive = true
+        addUserButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        dismissButton.topAnchor.constraint(equalTo: addUserButton.bottomAnchor, constant: 24).isActive = true
+        dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
     private func makeLabelTextInputStackView(labelName: String, textFieldPlaceholder: String) -> UIStackView {
@@ -66,5 +75,31 @@ class AddUserViewController: UIViewController {
         
         return labelTextInputStackView
     }
+    
+    private func makeRoundedButtonWithLabel(buttonStyle: RoundedButtonStyle) -> UIView {
+        let backgroundView = UIView()
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        backgroundView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        backgroundView.backgroundColor = buttonStyle == .add ? UIColor(red: 0, green: 202/255, blue: 0, alpha: 1.0) : .red
+        backgroundView.layer.cornerRadius = 8
+        
+        let textLabel = UILabel()
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.text = buttonStyle == .add ? "Add new user" : "Discard changes"
+        textLabel.textColor = .white
+        textLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        
+        backgroundView.addSubview(textLabel)
+        textLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
+        textLabel.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor).isActive = true
+        
+        return backgroundView
+    }
 
+    enum RoundedButtonStyle {
+        case discard
+        case add
+    }
+    
 }
