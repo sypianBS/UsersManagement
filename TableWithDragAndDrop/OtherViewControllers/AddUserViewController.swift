@@ -14,6 +14,7 @@ class AddUserViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
+        stackView.spacing = 16
         return stackView
     }()
     
@@ -31,7 +32,7 @@ class AddUserViewController: UIViewController {
         
         view.addSubview(sheetTitleLabel)
         sheetTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        sheetTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24).isActive = true
+        sheetTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48).isActive = true
         view.addSubview(newUserStackView)
         newUserStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         newUserStackView.topAnchor.constraint(equalTo: sheetTitleLabel.bottomAnchor, constant: 24).isActive = true
@@ -64,11 +65,13 @@ class AddUserViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = labelName + ":"
         label.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        label.font = UIFont.systemFont(ofSize: 19)
         
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.text = nil
         textField.placeholder = textFieldPlaceholder
+        textField.font = UIFont.systemFont(ofSize: 19)
         
         labelTextInputStackView.addArrangedSubview(label)
         labelTextInputStackView.addArrangedSubview(textField)
@@ -88,7 +91,7 @@ class AddUserViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.text = buttonStyle == .add ? "Add new user" : "Discard changes"
         textLabel.textColor = .white
-        textLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        textLabel.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
         
         backgroundView.addSubview(textLabel)
         textLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
