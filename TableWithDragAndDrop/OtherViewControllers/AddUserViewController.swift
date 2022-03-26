@@ -53,6 +53,12 @@ class AddUserViewController: UIViewController {
         addUserButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         dismissButton.topAnchor.constraint(equalTo: addUserButton.bottomAnchor, constant: 24).isActive = true
         dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        dismissButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissSheet)))
+    }
+    
+    @objc private func dismissSheet() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func makeLabelTextInputStackView(labelName: String, textFieldPlaceholder: String) -> UIStackView {
