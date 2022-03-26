@@ -46,6 +46,7 @@ class AddUserViewController: UIViewController {
         newUserStackView.addArrangedSubview(email)
         
         let addUserButton = makeRoundedButtonWithLabel(buttonStyle: .add)
+        addUserButton.alpha = 0.2 //todoben disabling visually since on tap not implemented
         let dismissButton = makeRoundedButtonWithLabel(buttonStyle: .discard)
         view.addSubview(addUserButton)
         view.addSubview(dismissButton)
