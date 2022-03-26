@@ -17,6 +17,14 @@ class AddUserViewController: UIViewController {
         return stackView
     }()
     
+    var sheetTitleLabel: UILabel = {
+        let sheetTitleLabel = UILabel()
+        sheetTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        sheetTitleLabel.text = "New user"
+        sheetTitleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        return sheetTitleLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -38,9 +46,9 @@ class AddUserViewController: UIViewController {
         firstNameStackView.addArrangedSubview(addFirstNameTextField)
 
         newUserStackView.addArrangedSubview(firstNameStackView)
-        view.addSubview(newUserStackView)
-        newUserStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        newUserStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24).isActive = true
+        view.addSubview(sheetTitleLabel)
+        sheetTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        sheetTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24).isActive = true
     }
 
 }
