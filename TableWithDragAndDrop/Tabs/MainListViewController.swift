@@ -48,7 +48,7 @@ class MainListViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Users"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New user", style: .plain, target: self, action: #selector(showMyViewControllerInACustomizedSheet))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(showMyViewControllerInACustomizedSheet))
         
         setupSearchController()
         
