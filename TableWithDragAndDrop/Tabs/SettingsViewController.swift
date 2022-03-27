@@ -28,21 +28,21 @@ class SettingsViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         let useLineSeparatorsSwitch = makeLabelSwitchInputStackView(labelName: "Use line separators", switchTapTarget: #selector(self.setLineSeparators(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLineSeparators))
-        let useBlueSeparatorsColorSwitch = makeLabelSwitchInputStackView(labelName: "Blue separators color", switchTapTarget: #selector(self.useBlueSeparatorsColor(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLineSeparators))
+        let useLocalFileIfDownloadFailed = makeLabelSwitchInputStackView(labelName: "Use local file if offline", switchTapTarget: #selector(self.shouldUseLocalFileIfDownloadFailed(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed))
         
         self.view.addSubview(appearanceSettingsStackView)
         appearanceSettingsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         appearanceSettingsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48).isActive = true
         appearanceSettingsStackView.addArrangedSubview(useLineSeparatorsSwitch)
-        appearanceSettingsStackView.addArrangedSubview(useBlueSeparatorsColorSwitch)
+        appearanceSettingsStackView.addArrangedSubview(useLocalFileIfDownloadFailed)
     }
     
     @objc func setLineSeparators(_ sender: UISwitch!){
         defaults.set(sender.isOn, forKey: UserDefaultsKeys.useLineSeparators)
     }
     
-    @objc func useBlueSeparatorsColor(_ sender: UISwitch!){
-        defaults.set(sender.isOn, forKey: UserDefaultsKeys.useBlueSeparatorsColor)
+    @objc func shouldUseLocalFileIfDownloadFailed(_ sender: UISwitch!){
+        defaults.set(sender.isOn, forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed)
     }
     
     private func makeLabelSwitchInputStackView(labelName: String, switchTapTarget: Selector, switchSetOn: Bool) -> UIStackView {
@@ -59,6 +59,7 @@ class SettingsViewController: UIViewController {
         
         let uiswitch = UISwitch(frame:CGRect(x: 150, y: 150, width: 0, height: 0))
         uiswitch.addTarget(self, action: switchTapTarget, for: .touchUpInside)
+        uiswitch.isOn = switchSetOn
         uiswitch.translatesAutoresizingMaskIntoConstraints = false
         
         labelTextInputStackView.addArrangedSubview(label)

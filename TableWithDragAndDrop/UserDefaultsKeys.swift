@@ -9,5 +9,5 @@ import Foundation
 
 class UserDefaultsKeys {
     static let useLineSeparators = "UseLineSeparators"
-    static let useBlueSeparatorsColor = "UseBlueSeparatorsColor"
+    static let useLocalFileIfDownloadFailed = "UseLocalFileIfDownloadFailed"
 }

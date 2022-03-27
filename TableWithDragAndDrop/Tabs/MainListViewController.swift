@@ -43,6 +43,10 @@ class MainListViewController: UIViewController {
         return components
     }
     
+    var useLocalFileIfDownloadFailed: Bool {
+        return defaults.bool(forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Users"
@@ -55,7 +59,7 @@ class MainListViewController: UIViewController {
         tableView.dataSource = self
         tableView.frame = view.bounds
         if let url = usersListURLComponents.url {
-            decodeJSON(url: url, locaFileName: localJSONFileName)
+            decodeJSON(url: url, localFileName: useLocalFileIfDownloadFailed ? localJSONFileName : nil)
                 .receive(on: RunLoop.main) //for updating UI, main thread is needed
                 .sink(receiveCompletion: { completion in
                     switch completion {
@@ -80,8 +84,7 @@ class MainListViewController: UIViewController {
         let useLineSeparators = defaults.bool(forKey: UserDefaultsKeys.useLineSeparators)
         self.tableView.separatorStyle = useLineSeparators ? .singleLine : .none
         
-        let useBlueSeparatorsColor = defaults.bool(forKey: UserDefaultsKeys.useBlueSeparatorsColor)
-        self.tableView.separatorColor = useBlueSeparatorsColor ? .blue : UITableView().separatorColor
+   
         
     }
     

@@ -28,10 +28,25 @@ func fetch(url: URL) -> AnyPublisher<Data, Error> {
         .eraseToAnyPublisher()
 }
 
-func decodeJSON<T: Decodable>(url: URL, locaFileName: String) -> AnyPublisher<T, Error> {
+func decodeJSON<T: Decodable>(url: URL, localFileName: String?) -> AnyPublisher<T, Error> {
+    
+    if let localFileName = localFileName {
+        return decodeJSON(url: url, locaFileName: localFileName)
+    } else {
+        return decodeJSON(url: url)
+    }
+}
+
+private func decodeJSON<T: Decodable>(url: URL, locaFileName: String) -> AnyPublisher<T, Error> {
     fetch(url: url)
     //use a local file if an fetch error occured
         .replaceError(with: try! Data(contentsOf: Bundle.main.url(forResource: locaFileName, withExtension: "json")!))
+        .decode(type: T.self, decoder: JSONDecoder())
+        .eraseToAnyPublisher()
+}
+
+private func decodeJSON<T: Decodable>(url: URL) -> AnyPublisher<T, Error> {
+    fetch(url: url)
         .decode(type: T.self, decoder: JSONDecoder())
         .eraseToAnyPublisher()
 }
