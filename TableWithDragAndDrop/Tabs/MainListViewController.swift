@@ -66,7 +66,9 @@ class MainListViewController: UIViewController {
                     case .finished:
                         break
                     case .failure(let error):
-                        print("Error: \(error.localizedDescription)")
+                        let alert = UIAlertController(title: "Error ", message: error.localizedDescription, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }, receiveValue: { (users: [User]) in
                     self.users = users
