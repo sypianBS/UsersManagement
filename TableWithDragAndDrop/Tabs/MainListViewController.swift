@@ -16,6 +16,7 @@ class MainListViewController: UIViewController {
     private var cancellables: Set<AnyCancellable> = []
     private let searchController = UISearchController(searchResultsController: nil)
     static var favoritesList = CurrentValueSubject<[User], Never>([])
+    let newUser = PassthroughSubject<User, Never>()
     
     var sections = [Section]()
     
@@ -73,11 +74,7 @@ class MainListViewController: UIViewController {
                 }, receiveValue: { (users: [User]) in
                     self.users = users
                     self.filteredUsers = users
-                    //alphabetical sort based on https://stackoverflow.com/questions/28087688/alphabetical-sections-in-table-table-view-in-swift it also considers the fact that the surname is the last word of the name property (e.g. Schulist in Mrs. Dennis Schulist)
-                    let groupedUsersDictionary = Dictionary(grouping: users, by: {String($0.name.components(separatedBy: " ").last?.prefix(1) ?? "")})
-                       let keys = groupedUsersDictionary.keys.sorted()
-                    self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
-                    self.tableView.reloadData()
+                    self.setupUsersSections()
                 }).store(in: &cancellables)
         }
         
@@ -86,6 +83,22 @@ class MainListViewController: UIViewController {
             .sink { favoriteUsers in
                 self.tableView.reloadData()
             }.store(in: &cancellables)
+        
+        newUser
+            .receive(on: RunLoop.main)
+            .sink { user in
+                self.users.append(user)
+                self.filteredUsers = self.users
+                self.setupUsersSections()
+            }.store(in: &cancellables)
+    }
+        
+    //alphabetical sort based on https://stackoverflow.com/questions/28087688/alphabetical-sections-in-table-table-view-in-swift it also considers the fact that the surname is the last word of the name property (e.g. Schulist in Mrs. Dennis Schulist)
+    private func setupUsersSections() {
+        let groupedUsersDictionary = Dictionary(grouping: self.users, by: {String($0.name.components(separatedBy: " ").last?.prefix(1) ?? "")})
+           let keys = groupedUsersDictionary.keys.sorted()
+        self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
+        self.tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,7 +135,7 @@ class MainListViewController: UIViewController {
     }
     
     @objc private func showMyViewControllerInACustomizedSheet() {
-        let viewControllerToPresent = AddUserViewController()
+        let viewControllerToPresent = AddUserViewController(newUserPublisher: newUser)
         if let sheet = viewControllerToPresent.sheetPresentationController {
             sheet.detents = [.large()] //large sheet size
             sheet.largestUndimmedDetentIdentifier = .medium

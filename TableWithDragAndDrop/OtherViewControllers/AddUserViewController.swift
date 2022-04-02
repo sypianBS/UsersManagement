@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 class AddUserViewController: UIViewController {
+    
+    let newUser: PassthroughSubject<User, Never>
 
     var newUserStackView: UIStackView = {
         let stackView = UIStackView()
@@ -46,7 +49,6 @@ class AddUserViewController: UIViewController {
         newUserStackView.addArrangedSubview(email)
         
         let addUserButton = makeRoundedButtonWithLabel(buttonStyle: .add)
-        addUserButton.alpha = 0.2 //todoben disabling visually since on tap not implemented
         let dismissButton = makeRoundedButtonWithLabel(buttonStyle: .discard)
         view.addSubview(addUserButton)
         view.addSubview(dismissButton)
@@ -55,7 +57,24 @@ class AddUserViewController: UIViewController {
         dismissButton.topAnchor.constraint(equalTo: addUserButton.bottomAnchor, constant: 24).isActive = true
         dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
+        addUserButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addUser)))
         dismissButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissSheet)))
+    }
+    
+    init(newUserPublisher: PassthroughSubject<User, Never>){
+        self.newUser = newUserPublisher
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func addUser() {
+        print("added user")
+        let newUser = User(id: 15, name: "John Doe", username: "no username", email: "bubu@gg.com", address: nil, phone: nil, website: nil, company: Company(name: "Test company", catchPhrase: nil, bs: nil))
+        self.newUser.send(newUser)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func dismissSheet() {
