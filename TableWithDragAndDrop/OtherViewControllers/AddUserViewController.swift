@@ -36,6 +36,10 @@ class AddUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        basicUISetup()
+    }
+    
+    private func basicUISetup() {
         view.backgroundColor = .white
         
         view.addSubview(sheetTitleLabel)

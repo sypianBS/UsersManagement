@@ -83,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */,
+				C331A1F727EF1F20004BE60C /* UserDefaultsKeys.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -116,7 +117,6 @@
 				C379E6B127DCF85400B75FFA /* LaunchScreen.storyboard */,
 				C379E6B427DCF85400B75FFA /* Info.plist */,
 				C379E6C527DDEC0700B75FFA /* Users.json */,
-				C331A1F727EF1F20004BE60C /* UserDefaultsKeys.swift */,
 			);
 			path = TableWithDragAndDrop;
 			sourceTree = "<group>";

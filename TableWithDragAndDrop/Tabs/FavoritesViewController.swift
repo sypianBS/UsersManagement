@@ -22,6 +22,11 @@ class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigationBarAdTableView()
+        setupSubscriptions()
+    }
+    
+    private func setupNavigationBarAdTableView() {
         navigationItem.title = "Favorite users"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditing))
@@ -30,7 +35,9 @@ class FavoritesViewController: UIViewController {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.frame = view.bounds
-        
+    }
+    
+    private func setupSubscriptions() {
         MainListViewController.favoritesList
             .receive(on: RunLoop.main)
             .sink { value in

@@ -50,6 +50,13 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNavigationBarAndTableView()
+        downloadAndDecodeUsersData()
+        setupSubscriptions()
+    }
+    
+    private func setupNavigationBarAndTableView() {
         navigationItem.title = "Users"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(showMyViewControllerInACustomizedSheet))
@@ -59,6 +66,9 @@ class MainListViewController: UIViewController {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.frame = view.bounds
+    }
+    
+    private func downloadAndDecodeUsersData() {
         if let url = usersListURLComponents.url {
             decodeJSON(url: url, localFileName: useLocalFileIfDownloadFailed ? localJSONFileName : nil)
                 .receive(on: RunLoop.main) //for updating UI, main thread is needed
@@ -77,7 +87,9 @@ class MainListViewController: UIViewController {
                     self.setupUsersSections()
                 }).store(in: &cancellables)
         }
-        
+    }
+    
+    private func setupSubscriptions() {
         MainListViewController.favoritesList
             .receive(on: RunLoop.main)
             .sink { favoriteUsers in
