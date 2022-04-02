@@ -135,7 +135,7 @@ class MainListViewController: UIViewController {
     }
     
     @objc private func showMyViewControllerInACustomizedSheet() {
-        let viewControllerToPresent = AddUserViewController(newUserPublisher: newUser)
+        let viewControllerToPresent = AddUserViewController(newUserPublisher: newUser, numberOfUsers: users.count)
         if let sheet = viewControllerToPresent.sheetPresentationController {
             sheet.detents = [.large()] //large sheet size
             sheet.largestUndimmedDetentIdentifier = .medium

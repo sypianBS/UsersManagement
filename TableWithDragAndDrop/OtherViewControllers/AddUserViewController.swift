@@ -12,6 +12,7 @@ class AddUserViewController: UIViewController {
     
     let newUser: PassthroughSubject<User, Never>
     var name: String? = nil
+    var numberOfUsers: Int!
     let firstNameInputTextfield = UITextField()
     let lastNameInputTextfield = UITextField()
     let companyInputTextfield = UITextField()
@@ -65,8 +66,9 @@ class AddUserViewController: UIViewController {
         dismissButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissSheet)))
     }
     
-    init(newUserPublisher: PassthroughSubject<User, Never>){
+    init(newUserPublisher: PassthroughSubject<User, Never>, numberOfUsers: Int){
         self.newUser = newUserPublisher
+        self.numberOfUsers = numberOfUsers
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -82,8 +84,8 @@ class AddUserViewController: UIViewController {
             return
         }
         
-        //todoben generate a proper ID
-        let newUser = User(id: 15, name: firstName + " " + lastName, username: "no username", email: "", address: nil, phone: nil, website: nil, company: Company(name: company, catchPhrase: nil, bs: nil))
+        //for simplicity, just increment the users count by 1 for the new ID
+        let newUser = User(id: numberOfUsers + 1, name: firstName + " " + lastName, username: "no username", email: "", address: nil, phone: nil, website: nil, company: Company(name: company, catchPhrase: nil, bs: nil))
         self.newUser.send(newUser)
         self.dismiss(animated: true, completion: nil)
     }
