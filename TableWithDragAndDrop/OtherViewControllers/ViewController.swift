@@ -37,6 +37,7 @@ class ViewController: UITabBarController {
         settingsTab.tabBarItem = settingsTabBarItem
         
         self.viewControllers = [favoritesTab, mainListTab, settingsTab]
+        self.tabBar.isTranslucent = false // force child controller's view to appear above the tab bar
         self.selectedIndex = 1 //start point is the middle tab
     }
         
