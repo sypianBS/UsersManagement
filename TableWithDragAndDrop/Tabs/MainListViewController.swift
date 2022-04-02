@@ -15,7 +15,7 @@ class MainListViewController: UIViewController {
     private let localJSONFileName = "Users"
     private var cancellables: Set<AnyCancellable> = []
     private let searchController = UISearchController(searchResultsController: nil)
-    static var favoritesSet = CurrentValueSubject<Set<User>, Never>([])
+    static var favoritesList = CurrentValueSubject<[User], Never>([])
     
     var sections = [Section]()
     
@@ -80,14 +80,17 @@ class MainListViewController: UIViewController {
                     self.tableView.reloadData()
                 }).store(in: &cancellables)
         }
+        
+        MainListViewController.favoritesList
+            .receive(on: RunLoop.main)
+            .sink { favoriteUsers in
+                self.tableView.reloadData()
+            }.store(in: &cancellables)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         let useLineSeparators = defaults.bool(forKey: UserDefaultsKeys.useLineSeparators)
         self.tableView.separatorStyle = useLineSeparators ? .singleLine : .none
-        
-   
-        
     }
     
     private func setupSearchController() {
@@ -149,6 +152,9 @@ extension MainListViewController: UITableViewDataSource {
             return setupCell(cell: cell, user: user)
         } else {
             let user = filteredUsers[indexPath.row]
+            if MainListViewController.favoritesList.value.contains(user) {
+                cell.unmarkAsFavorite()
+            }
             return setupCell(cell: cell, user: user)
         }
     }
@@ -157,7 +163,7 @@ extension MainListViewController: UITableViewDataSource {
         cell.nameLabel.text = user.name
         cell.companyLabel.text = user.company?.name
         //additional check needed due to the filtered-unfiltered results table differences
-        if MainListViewController.favoritesSet.value.contains(user) {
+        if MainListViewController.favoritesList.value.contains(user) {
             cell.markAsFavorite()
         } else {
             cell.unmarkAsFavorite()
@@ -165,12 +171,17 @@ extension MainListViewController: UITableViewDataSource {
         
         cell.favoriteButtonAction = {
             //add if not containing, remove if containing - this will toggle the behavior of tapping on the favorite
-
-            if MainListViewController.favoritesSet.value.insert(user).inserted {
+            //why not Set / NSSet ? -> because we need to keep the order since favorites can be reordered in the favorites tab
+            if !MainListViewController.favoritesList.value.contains(user) {
+                MainListViewController.favoritesList.value.append(user)
                 cell.markAsFavorite()
-            } else {
-                MainListViewController.favoritesSet.value.remove(user)
-                cell.unmarkAsFavorite()
+            }
+            else {
+                if let index = MainListViewController.favoritesList.value.firstIndex(of: user)
+                {
+                    MainListViewController.favoritesList.value.remove(at: index)
+                    cell.unmarkAsFavorite()
+                }
             }
         }
         return cell
