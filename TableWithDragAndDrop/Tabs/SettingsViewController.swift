@@ -31,8 +31,8 @@ class SettingsViewController: UIViewController {
         let useLocalFileIfDownloadFailed = makeLabelSwitchInputStackView(labelName: "Use local file if offline", switchTapTarget: #selector(self.shouldUseLocalFileIfDownloadFailed(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed))
         
         self.view.addSubview(appearanceSettingsStackView)
-        appearanceSettingsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        appearanceSettingsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48).isActive = true
+        appearanceSettingsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        appearanceSettingsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
         appearanceSettingsStackView.addArrangedSubview(useLineSeparatorsSwitch)
         appearanceSettingsStackView.addArrangedSubview(useLocalFileIfDownloadFailed)
     }
