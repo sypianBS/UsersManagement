@@ -11,6 +11,10 @@ import Combine
 class AddUserViewController: UIViewController {
     
     let newUser: PassthroughSubject<User, Never>
+    var name: String? = nil
+    let firstNameInputTextfield = UITextField()
+    let lastNameInputTextfield = UITextField()
+    let companyInputTextfield = UITextField()
 
     var newUserStackView: UIStackView = {
         let stackView = UIStackView()
@@ -40,13 +44,13 @@ class AddUserViewController: UIViewController {
         newUserStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         newUserStackView.topAnchor.constraint(equalTo: sheetTitleLabel.bottomAnchor, constant: 24).isActive = true
         
-        let firstNameInput = makeLabelTextInputStackView(labelName: "First name", textFieldPlaceholder: "e.g. John")
-        let lastName = makeLabelTextInputStackView(labelName: "Last name", textFieldPlaceholder: "e.g. Doe")
-        let email = makeLabelTextInputStackView(labelName: "Email", textFieldPlaceholder: "e.g. john.doe@test.com")
+        let firstNameInput = makeLabelTextInputStackView(labelName: "First name", textFieldPlaceholder: "e.g. John", textfieldReference: firstNameInputTextfield)
+        let lastName = makeLabelTextInputStackView(labelName: "Last name", textFieldPlaceholder: "e.g. Doe", textfieldReference: lastNameInputTextfield)
+        let company = makeLabelTextInputStackView(labelName: "Company", textFieldPlaceholder: "e.g. Google", textfieldReference: companyInputTextfield)
         
         newUserStackView.addArrangedSubview(firstNameInput)
         newUserStackView.addArrangedSubview(lastName)
-        newUserStackView.addArrangedSubview(email)
+        newUserStackView.addArrangedSubview(company)
         
         let addUserButton = makeRoundedButtonWithLabel(buttonStyle: .add)
         let dismissButton = makeRoundedButtonWithLabel(buttonStyle: .discard)
@@ -71,8 +75,15 @@ class AddUserViewController: UIViewController {
     }
     
     @objc private func addUser() {
-        print("added user")
-        let newUser = User(id: 15, name: "John Doe", username: "no username", email: "bubu@gg.com", address: nil, phone: nil, website: nil, company: Company(name: "Test company", catchPhrase: nil, bs: nil))
+        guard let firstName = firstNameInputTextfield.text, let lastName = lastNameInputTextfield.text, let company = companyInputTextfield.text else {
+            return
+        }
+        if firstName.isEmpty || lastName.isEmpty || company.isEmpty {
+            return
+        }
+        
+        //todoben generate a proper ID
+        let newUser = User(id: 15, name: firstName + " " + lastName, username: "no username", email: "", address: nil, phone: nil, website: nil, company: Company(name: company, catchPhrase: nil, bs: nil))
         self.newUser.send(newUser)
         self.dismiss(animated: true, completion: nil)
     }
@@ -81,7 +92,7 @@ class AddUserViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    private func makeLabelTextInputStackView(labelName: String, textFieldPlaceholder: String) -> UIStackView {
+    private func makeLabelTextInputStackView(labelName: String, textFieldPlaceholder: String, textfieldReference: UITextField) -> UIStackView {
         let labelTextInputStackView = UIStackView()
         labelTextInputStackView.translatesAutoresizingMaskIntoConstraints = false
         labelTextInputStackView.axis = .horizontal
@@ -93,14 +104,13 @@ class AddUserViewController: UIViewController {
         label.widthAnchor.constraint(equalToConstant: 100).isActive = true
         label.font = UIFont.systemFont(ofSize: 19)
         
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.text = nil
-        textField.placeholder = textFieldPlaceholder
-        textField.font = UIFont.systemFont(ofSize: 19)
+        textfieldReference.translatesAutoresizingMaskIntoConstraints = false
+        textfieldReference.text = nil
+        textfieldReference.placeholder = textFieldPlaceholder
+        textfieldReference.font = UIFont.systemFont(ofSize: 19)
         
         labelTextInputStackView.addArrangedSubview(label)
-        labelTextInputStackView.addArrangedSubview(textField)
+        labelTextInputStackView.addArrangedSubview(textfieldReference)
         
         return labelTextInputStackView
     }
