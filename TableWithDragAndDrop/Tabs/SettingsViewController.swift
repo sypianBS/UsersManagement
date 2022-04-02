@@ -32,6 +32,7 @@ class SettingsViewController: UIViewController {
         
         self.view.addSubview(appearanceSettingsStackView)
         appearanceSettingsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        appearanceSettingsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
         appearanceSettingsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
         appearanceSettingsStackView.addArrangedSubview(useLineSeparatorsSwitch)
         appearanceSettingsStackView.addArrangedSubview(useLocalFileIfDownloadFailed)
@@ -49,15 +50,13 @@ class SettingsViewController: UIViewController {
         let labelTextInputStackView = UIStackView()
         labelTextInputStackView.translatesAutoresizingMaskIntoConstraints = false
         labelTextInputStackView.axis = .horizontal
-        labelTextInputStackView.spacing = 16
         
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = labelName + ":"
-        label.widthAnchor.constraint(equalToConstant: 200).isActive = true
         label.font = UIFont.systemFont(ofSize: 19)
         
-        let uiswitch = UISwitch(frame:CGRect(x: 150, y: 150, width: 0, height: 0))
+        let uiswitch = UISwitch()
         uiswitch.addTarget(self, action: switchTapTarget, for: .touchUpInside)
         uiswitch.isOn = switchSetOn
         uiswitch.translatesAutoresizingMaskIntoConstraints = false
