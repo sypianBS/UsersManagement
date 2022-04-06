@@ -38,7 +38,7 @@ class FavoritesViewController: UIViewController {
     }
     
     private func setupSubscriptions() {
-        MainListViewController.favoritesList
+        UsersViewModel.favoritesList
             .receive(on: RunLoop.main)
             .sink { value in
                 self.navigationItem.title = "Favorite users (\(value.count))"
@@ -47,13 +47,13 @@ class FavoritesViewController: UIViewController {
     }
     
     @objc func toggleEditing() {
-        if Array(MainListViewController.favoritesList.value).count > 0 {
+        if Array(UsersViewModel.favoritesList.value).count > 0 {
             tableView.isEditing.toggle()
         }
     }
     
     @objc func sortAlphabetically() {
-        MainListViewController.favoritesList.value = Array(MainListViewController.favoritesList.value).sorted(by: {
+        UsersViewModel.favoritesList.value = Array(UsersViewModel.favoritesList.value).sorted(by: {
             $0.name.components(separatedBy: " ").last! < $1.name.components(separatedBy: " ").last!
         })
     }
@@ -62,12 +62,12 @@ class FavoritesViewController: UIViewController {
 
 extension FavoritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MainListViewController.favoritesList.value.count
+        UsersViewModel.favoritesList.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = MainListViewController.favoritesList.value[indexPath.row].name
+        cell.textLabel?.text = UsersViewModel.favoritesList.value[indexPath.row].name
         return cell
     }
     
@@ -78,7 +78,7 @@ extension FavoritesViewController: UITableViewDataSource {
     //deleting favorites
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
-            MainListViewController.favoritesList.value.remove(at: indexPath.row)
+            UsersViewModel.favoritesList.value.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .middle)
         }
       
@@ -92,6 +92,6 @@ extension FavoritesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        MainListViewController.favoritesList.value.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+        UsersViewModel.favoritesList.value.swapAt(sourceIndexPath.row, destinationIndexPath.row)
     }
 }

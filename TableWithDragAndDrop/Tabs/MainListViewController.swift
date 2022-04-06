@@ -10,15 +10,9 @@ import Combine
 
 class MainListViewController: UIViewController {
     let defaults = UserDefaults.standard
-    private var users: [User] = []
-    private var filteredUsers: [User] = []
-    private let localJSONFileName = "Users"
+    let usersViewModel = UsersViewModel()
     private var cancellables: Set<AnyCancellable> = []
     private let searchController = UISearchController(searchResultsController: nil)
-    static var favoritesList = CurrentValueSubject<[User], Never>([])
-    let newUser = PassthroughSubject<User, Never>()
-    
-    var sections = [Section]()
     
     var isSearchBarEmpty: Bool {
       return searchController.searchBar.text?.isEmpty ?? true
@@ -35,14 +29,6 @@ class MainListViewController: UIViewController {
         table.register(UserTableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
-    
-    private var usersListURLComponents: URLComponents {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "jsonplaceholder.typicode.com"
-        components.path = "/users"
-        return components
-    }
     
     var useLocalFileIfDownloadFailed: Bool {
         return defaults.bool(forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed)
@@ -69,8 +55,8 @@ class MainListViewController: UIViewController {
     }
     
     private func downloadAndDecodeUsersData() {
-        if let url = usersListURLComponents.url {
-            decodeJSON(url: url, localFileName: useLocalFileIfDownloadFailed ? localJSONFileName : nil)
+        if let url = usersViewModel.usersListURLComponents.url {
+            decodeJSON(url: url, localFileName: useLocalFileIfDownloadFailed ? usersViewModel.localJSONFileName : nil)
                 .receive(on: RunLoop.main) //for updating UI, main thread is needed
                 .sink(receiveCompletion: { completion in
                     switch completion {
@@ -82,34 +68,34 @@ class MainListViewController: UIViewController {
                         self.present(alert, animated: true, completion: nil)
                     }
                 }, receiveValue: { (users: [User]) in
-                    self.users = users
-                    self.filteredUsers = users
+                    self.usersViewModel.users = users
+                    self.usersViewModel.filteredUsers = users
                     self.setupUsersSections()
                 }).store(in: &cancellables)
         }
     }
     
     private func setupSubscriptions() {
-        MainListViewController.favoritesList
+        UsersViewModel.favoritesList
             .receive(on: RunLoop.main)
             .sink { favoriteUsers in
                 self.tableView.reloadData()
             }.store(in: &cancellables)
         
-        newUser
+        usersViewModel.newUser
             .receive(on: RunLoop.main)
             .sink { user in
-                self.users.append(user)
-                self.filteredUsers = self.users
+                self.usersViewModel.users.append(user)
+                self.usersViewModel.filteredUsers = self.usersViewModel.users
                 self.setupUsersSections()
             }.store(in: &cancellables)
     }
         
     //alphabetical sort based on https://stackoverflow.com/questions/28087688/alphabetical-sections-in-table-table-view-in-swift it also considers the fact that the surname is the last word of the name property (e.g. Schulist in Mrs. Dennis Schulist)
     private func setupUsersSections() {
-        let groupedUsersDictionary = Dictionary(grouping: self.users, by: {String($0.name.components(separatedBy: " ").last?.prefix(1) ?? "")})
+        let groupedUsersDictionary = Dictionary(grouping: self.usersViewModel.users, by: {String($0.name.components(separatedBy: " ").last?.prefix(1) ?? "")})
            let keys = groupedUsersDictionary.keys.sorted()
-        self.sections = keys.map{ Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
+        self.usersViewModel.sections = keys.map{ UsersViewModel.Section(letter: $0, users: groupedUsersDictionary[$0]!.sorted()) }
         self.tableView.reloadData()
     }
     
@@ -139,7 +125,7 @@ class MainListViewController: UIViewController {
                 guard let searchText = searchText else {
                     return
                 }
-                self.filteredUsers = self.users.filter({ user in
+                self.usersViewModel.filteredUsers = self.usersViewModel.users.filter({ user in
                     return user.name.lowercased().contains(searchText.lowercased())
                 })
                 self.tableView.reloadData()
@@ -147,7 +133,7 @@ class MainListViewController: UIViewController {
     }
     
     @objc private func showMyViewControllerInACustomizedSheet() {
-        let viewControllerToPresent = AddUserViewController(newUserPublisher: newUser, numberOfUsers: users.count)
+        let viewControllerToPresent = AddUserViewController(newUserPublisher: usersViewModel.newUser, numberOfUsers: usersViewModel.users.count)
         if let sheet = viewControllerToPresent.sheetPresentationController {
             sheet.detents = [.large()] //large sheet size
             sheet.largestUndimmedDetentIdentifier = .medium
@@ -159,10 +145,6 @@ class MainListViewController: UIViewController {
         present(viewControllerToPresent, animated: true, completion: nil)
     }
     
-    struct Section {
-        let letter : String
-        let users : [User]
-    }
 }
 
 extension MainListViewController: UITableViewDataSource {
@@ -172,12 +154,12 @@ extension MainListViewController: UITableViewDataSource {
         }
 
         if !isFiltering {
-            let section = sections[indexPath.section]
+            let section = usersViewModel.sections[indexPath.section]
             let user = section.users[indexPath.row]
             return setupCell(cell: cell, user: user)
         } else {
-            let user = filteredUsers[indexPath.row]
-            if MainListViewController.favoritesList.value.contains(user) {
+            let user = usersViewModel.filteredUsers[indexPath.row]
+            if UsersViewModel.favoritesList.value.contains(user) {
                 cell.unmarkAsFavorite()
             }
             return setupCell(cell: cell, user: user)
@@ -188,7 +170,7 @@ extension MainListViewController: UITableViewDataSource {
         cell.nameLabel.text = user.name
         cell.companyLabel.text = user.company?.name
         //additional check needed due to the filtered-unfiltered results table differences
-        if MainListViewController.favoritesList.value.contains(user) {
+        if UsersViewModel.favoritesList.value.contains(user) {
             cell.markAsFavorite()
         } else {
             cell.unmarkAsFavorite()
@@ -197,14 +179,14 @@ extension MainListViewController: UITableViewDataSource {
         cell.favoriteButtonAction = {
             //add if not containing, remove if containing - this will toggle the behavior of tapping on the favorite
             //why not Set / NSSet ? -> because we need to keep the order since favorites can be reordered in the favorites tab
-            if !MainListViewController.favoritesList.value.contains(user) {
-                MainListViewController.favoritesList.value.append(user)
+            if !UsersViewModel.favoritesList.value.contains(user) {
+                UsersViewModel.favoritesList.value.append(user)
                 cell.markAsFavorite()
             }
             else {
-                if let index = MainListViewController.favoritesList.value.firstIndex(of: user)
+                if let index = UsersViewModel.favoritesList.value.firstIndex(of: user)
                 {
-                    MainListViewController.favoritesList.value.remove(at: index)
+                    UsersViewModel.favoritesList.value.remove(at: index)
                     cell.unmarkAsFavorite()
                 }
             }
@@ -219,28 +201,28 @@ extension MainListViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if isFiltering {
-            return filteredUsers.count
+            return usersViewModel.filteredUsers.count
         }
         
-        return sections[section].users.count
+        return usersViewModel.sections[section].users.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if isFiltering {
             return 1
         }
-        return sections.count
+        return usersViewModel.sections.count
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sections.map{$0.letter}
+        return usersViewModel.sections.map{$0.letter}
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if isFiltering {
             return nil
         }
-        return sections[section].letter
+        return usersViewModel.sections[section].letter
     }
 }
 
