@@ -24,6 +24,7 @@
 		C3E406BB27FE1E5000F2E66F /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406BA27FE1E4F00F2E66F /* UsersViewModel.swift */; };
 		C3E406BE2800BD6B00F2E66F /* UITextField+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */; };
 		C3E406C02800BEA500F2E66F /* CombineControlProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406BF2800BEA500F2E66F /* CombineControlProperty.swift */; };
+		C3E406C42800C53300F2E66F /* ProjectStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406C32800C53300F2E66F /* ProjectStrings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		C3E406BA27FE1E4F00F2E66F /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Combine.swift"; sourceTree = "<group>"; };
 		C3E406BF2800BEA500F2E66F /* CombineControlProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineControlProperty.swift; sourceTree = "<group>"; };
+		C3E406C32800C53300F2E66F /* ProjectStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStrings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,13 +70,14 @@
 			path = LifecycleFiles;
 			sourceTree = "<group>";
 		};
-		C331A1F427EEE626004BE60C /* OtherViewControllers */ = {
+		C331A1F427EEE626004BE60C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				C379E6AA27DCF85100B75FFA /* ViewController.swift */,
-				C331A1F127EE5D3A004BE60C /* AddUserViewController.swift */,
+				C379E6C027DCFE2200B75FFA /* Tabs */,
+				C3E406C22800C4C900F2E66F /* Other */,
 			);
-			path = OtherViewControllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C331A1F527EEE655004BE60C /* Model */ = {
@@ -90,6 +93,7 @@
 			children = (
 				C379E6C127DD10AA00B75FFA /* UtilNetwork.swift */,
 				C331A1F727EF1F20004BE60C /* UserDefaultsKeys.swift */,
+				C3E406C32800C53300F2E66F /* ProjectStrings.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -114,17 +118,16 @@
 			isa = PBXGroup;
 			children = (
 				C331A1F327EEE5CF004BE60C /* LifecycleFiles */,
-				C379E6C027DCFE2200B75FFA /* Tabs */,
-				C331A1F427EEE626004BE60C /* OtherViewControllers */,
+				C331A1F427EEE626004BE60C /* ViewControllers */,
 				C331A1F527EEE655004BE60C /* Model */,
-				C331A1F627EEE680004BE60C /* Utils */,
 				C3E406BC27FE1E5D00F2E66F /* ViewModel */,
+				C331A1F627EEE680004BE60C /* Utils */,
+				C3E406C12800C07900F2E66F /* UIKit+CombneHelpers */,
 				C331A1CF27E75C31004BE60C /* UserTableViewCell.swift */,
 				C379E6AF27DCF85400B75FFA /* Assets.xcassets */,
 				C379E6B127DCF85400B75FFA /* LaunchScreen.storyboard */,
 				C379E6B427DCF85400B75FFA /* Info.plist */,
 				C379E6C527DDEC0700B75FFA /* Users.json */,
-				C3E406C12800C07900F2E66F /* UIKit+CombneHelpers */,
 			);
 			path = TableWithDragAndDrop;
 			sourceTree = "<group>";
@@ -154,6 +157,14 @@
 				C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */,
 			);
 			path = "UIKit+CombneHelpers";
+			sourceTree = "<group>";
+		};
+		C3E406C22800C4C900F2E66F /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				C331A1F127EE5D3A004BE60C /* AddUserViewController.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +245,7 @@
 				C3E406C02800BEA500F2E66F /* CombineControlProperty.swift in Sources */,
 				C379E6A727DCF85100B75FFA /* AppDelegate.swift in Sources */,
 				C379E6BB27DCFB8600B75FFA /* FavoritesViewController.swift in Sources */,
+				C3E406C42800C53300F2E66F /* ProjectStrings.swift in Sources */,
 				C379E6BD27DCFBA300B75FFA /* MainListViewController.swift in Sources */,
 				C331A1F827EF1F20004BE60C /* UserDefaultsKeys.swift in Sources */,
 				C331A1F227EE5D3A004BE60C /* AddUserViewController.swift in Sources */,

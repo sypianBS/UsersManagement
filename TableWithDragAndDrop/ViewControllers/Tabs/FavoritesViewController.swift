@@ -27,9 +27,9 @@ class FavoritesViewController: UIViewController {
     }
     
     private func setupNavigationBarAdTableView() {
-        navigationItem.title = "Favorite users"
+        navigationItem.title = ProjectStrings.favoriteUsersNavigationTitle
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditing))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: ProjectStrings.favoriteUsersEditButtonTitle, style: .plain, target: self, action: #selector(toggleEditing))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortAlphabetically))
         
         view.addSubview(tableView)
@@ -41,7 +41,7 @@ class FavoritesViewController: UIViewController {
         UsersViewModel.favoritesList
             .receive(on: RunLoop.main)
             .sink { value in
-                self.navigationItem.title = "Favorite users (\(value.count))"
+                self.navigationItem.title = ProjectStrings.favoriteUsersNavigationTitleWithCounter.replacingOccurrences(of: "%%", with: "\(value.count)") 
                 self.tableView.reloadData()
             }.store(in: &cancellables)
     }
