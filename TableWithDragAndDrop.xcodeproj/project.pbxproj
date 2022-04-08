@@ -22,6 +22,8 @@
 		C379E6C427DDC62F00B75FFA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C379E6C327DDC62F00B75FFA /* User.swift */; };
 		C379E6C627DDEC0700B75FFA /* Users.json in Resources */ = {isa = PBXBuildFile; fileRef = C379E6C527DDEC0700B75FFA /* Users.json */; };
 		C3E406BB27FE1E5000F2E66F /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406BA27FE1E4F00F2E66F /* UsersViewModel.swift */; };
+		C3E406BE2800BD6B00F2E66F /* UITextField+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */; };
+		C3E406C02800BEA500F2E66F /* CombineControlProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406BF2800BEA500F2E66F /* CombineControlProperty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		C379E6C327DDC62F00B75FFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C379E6C527DDEC0700B75FFA /* Users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Users.json; sourceTree = "<group>"; };
 		C3E406BA27FE1E4F00F2E66F /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Combine.swift"; sourceTree = "<group>"; };
+		C3E406BF2800BEA500F2E66F /* CombineControlProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineControlProperty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 				C379E6B127DCF85400B75FFA /* LaunchScreen.storyboard */,
 				C379E6B427DCF85400B75FFA /* Info.plist */,
 				C379E6C527DDEC0700B75FFA /* Users.json */,
+				C3E406C12800C07900F2E66F /* UIKit+CombneHelpers */,
 			);
 			path = TableWithDragAndDrop;
 			sourceTree = "<group>";
@@ -140,6 +145,15 @@
 				C3E406BA27FE1E4F00F2E66F /* UsersViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C3E406C12800C07900F2E66F /* UIKit+CombneHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				C3E406BF2800BEA500F2E66F /* CombineControlProperty.swift */,
+				C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */,
+			);
+			path = "UIKit+CombneHelpers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,9 +227,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3E406BE2800BD6B00F2E66F /* UITextField+Combine.swift in Sources */,
 				C379E6AB27DCF85100B75FFA /* ViewController.swift in Sources */,
 				C3E406BB27FE1E5000F2E66F /* UsersViewModel.swift in Sources */,
 				C331A1D027E75C31004BE60C /* UserTableViewCell.swift in Sources */,
+				C3E406C02800BEA500F2E66F /* CombineControlProperty.swift in Sources */,
 				C379E6A727DCF85100B75FFA /* AppDelegate.swift in Sources */,
 				C379E6BB27DCFB8600B75FFA /* FavoritesViewController.swift in Sources */,
 				C379E6BD27DCFBA300B75FFA /* MainListViewController.swift in Sources */,

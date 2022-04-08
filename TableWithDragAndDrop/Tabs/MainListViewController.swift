@@ -114,12 +114,7 @@ class MainListViewController: UIViewController {
     }
     
     private func setupSearchBarChangePublisher() {
-
-        let publisher = NotificationCenter.default.publisher(for: UISearchTextField.textDidChangeNotification, object: searchController.searchBar.searchTextField)
-        publisher
-            .map {
-                ($0.object as! UISearchTextField).text
-            }
+        searchController.searchBar.searchTextField.textPublisher
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main) //publish after 0.3s from the last incoming letter. Not necessarily needed in this case since there are no following http requests etc., but just keep for the sake of interest
             .sink { (searchText) in
                 guard let searchText = searchText else {
