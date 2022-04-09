@@ -29,8 +29,20 @@ class FavoritesViewController: UIViewController {
     private func setupNavigationBarAdTableView() {
         navigationItem.title = ProjectStrings.favoriteUsersNavigationTitle
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: ProjectStrings.favoriteUsersEditButtonTitle, style: .plain, target: self, action: #selector(toggleEditing))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortAlphabetically))
+        
+        let toggleEditingButton = UIBarButtonItem()
+        toggleEditingButton.title = ProjectStrings.favoriteUsersEditButtonTitle
+        toggleEditingButton.tapPublisher.sink { _ in
+            self.toggleEditing()
+        }.store(in: &cancellables)
+        navigationItem.leftBarButtonItem = toggleEditingButton
+        
+        let sortAlphabeticallyButton = UIBarButtonItem()
+        sortAlphabeticallyButton.image = UIImage(systemName: "arrow.up.arrow.down")
+        sortAlphabeticallyButton.tapPublisher.sink { _ in
+            self.sortAlphabetically()
+        }.store(in: &cancellables)
+        navigationItem.rightBarButtonItem = sortAlphabeticallyButton
         
         view.addSubview(tableView)
         tableView.dataSource = self
@@ -41,18 +53,18 @@ class FavoritesViewController: UIViewController {
         UsersViewModel.favoritesList
             .receive(on: RunLoop.main)
             .sink { value in
-                self.navigationItem.title = ProjectStrings.favoriteUsersNavigationTitleWithCounter.replacingOccurrences(of: "%%", with: "\(value.count)") 
+                self.navigationItem.title = ProjectStrings.favoriteUsersNavigationTitleWithCounter.replacingOccurrences(of: "%%", with: "\(value.count)")
                 self.tableView.reloadData()
             }.store(in: &cancellables)
     }
     
-    @objc func toggleEditing() {
+    func toggleEditing() {
         if Array(UsersViewModel.favoritesList.value).count > 0 {
             tableView.isEditing.toggle()
         }
     }
     
-    @objc func sortAlphabetically() {
+    func sortAlphabetically() {
         UsersViewModel.favoritesList.value = Array(UsersViewModel.favoritesList.value).sorted(by: {
             $0.name.components(separatedBy: " ").last! < $1.name.components(separatedBy: " ").last!
         })
