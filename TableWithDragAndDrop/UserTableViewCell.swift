@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class UserTableViewCell: UITableViewCell {
     
@@ -15,16 +16,14 @@ class UserTableViewCell: UITableViewCell {
     let companyLabel = UILabel()
     let favoriteButton = UIButton()
     var favoriteButtonAction: (() -> ())?
+    private var cancellables: Set<AnyCancellable> = []
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -39,7 +38,11 @@ class UserTableViewCell: UITableViewCell {
         companyLabel.translatesAutoresizingMaskIntoConstraints = false
         companyLabel.textColor = .gray
                
-        favoriteButton.addTarget(self, action: #selector(toggleFavoriteButtonImage), for: .touchUpInside)
+        favoriteButton.tapPublisher
+            .sink { [unowned self] in
+                self.favoriteButtonAction?()
+            }.store(in: &cancellables)
+
         let image = UIImage(systemName: "star")
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         favoriteButton.setBackgroundImage(image, for: .normal)
@@ -69,9 +72,5 @@ class UserTableViewCell: UITableViewCell {
     func unmarkAsFavorite() {
         favoriteButton.setBackgroundImage(UIImage(systemName: "star"), for: .normal)
     }
-    
-    @objc func toggleFavoriteButtonImage() {
-        favoriteButtonAction?()
-    }
-    
+       
 }
