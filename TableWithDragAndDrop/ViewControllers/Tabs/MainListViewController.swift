@@ -45,7 +45,11 @@ class MainListViewController: UIViewController {
     private func setupNavigationBarAndTableView() {
         navigationItem.title = "Users"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(showMyViewControllerInACustomizedSheet))
+        let addUserButton = UIBarButtonItem(image: UIImage(systemName: "plus"))
+        addUserButton.tapPublisher.sink { [weak self] in
+            self?.showMyViewControllerInACustomizedSheet()
+        }.store(in: &cancellables)
+        navigationItem.rightBarButtonItem = addUserButton
         
         setupSearchController()
         
@@ -127,7 +131,7 @@ class MainListViewController: UIViewController {
             }.store(in: &cancellables)
     }
     
-    @objc private func showMyViewControllerInACustomizedSheet() {
+    private func showMyViewControllerInACustomizedSheet() {
         let viewControllerToPresent = AddUserViewController(newUserPublisher: usersViewModel.newUser, numberOfUsers: usersViewModel.users.count)
         if let sheet = viewControllerToPresent.sheetPresentationController {
             sheet.detents = [.large()] //large sheet size
