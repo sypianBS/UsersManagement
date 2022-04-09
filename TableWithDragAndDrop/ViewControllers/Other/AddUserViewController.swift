@@ -11,6 +11,7 @@ import Combine
 class AddUserViewController: UIViewController {
     
     let newUser: PassthroughSubject<User, Never>
+    private var cancellables: Set<AnyCancellable> = []
     var name: String? = nil
     var numberOfUsers: Int!
     let firstNameInputTextfield = UITextField()
@@ -66,8 +67,21 @@ class AddUserViewController: UIViewController {
         dismissButton.topAnchor.constraint(equalTo: addUserButton.bottomAnchor, constant: 24).isActive = true
         dismissButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        addUserButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addUser)))
-        dismissButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissSheet)))
+        let addUserGestureRecognizer = UITapGestureRecognizer()
+        addUserGestureRecognizer.tapPublisher
+            .sink { _ in
+                self.addUser()
+            }.store(in: &cancellables)
+        
+        addUserButton.addGestureRecognizer(addUserGestureRecognizer)
+        
+        let dismissSheetGestureRecognizer = UITapGestureRecognizer()
+        dismissSheetGestureRecognizer.tapPublisher
+            .sink { _ in
+                self.dismissSheet()
+            }.store(in: &cancellables)
+        
+        dismissButton.addGestureRecognizer(dismissSheetGestureRecognizer)
     }
     
     init(newUserPublisher: PassthroughSubject<User, Never>, numberOfUsers: Int){
@@ -80,7 +94,7 @@ class AddUserViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func addUser() {
+    private func addUser() {
         guard let firstName = firstNameInputTextfield.text, let lastName = lastNameInputTextfield.text, let company = companyInputTextfield.text else {
             return
         }
