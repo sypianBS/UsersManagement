@@ -30,6 +30,7 @@
 		C3E406CA280193C600F2E66F /* CombineControlEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406C9280193C600F2E66F /* CombineControlEvent.swift */; };
 		C3E406CC28019D1F00F2E66F /* UIBarButtonItem+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406CB28019D1E00F2E66F /* UIBarButtonItem+Combine.swift */; };
 		C3E406CE28019D8800F2E66F /* CombineControlTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406CD28019D8800F2E66F /* CombineControlTarget.swift */; };
+		C3E406D02801C6C600F2E66F /* UISwitch+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E406CF2801C6C600F2E66F /* UISwitch+Combine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		C3E406C9280193C600F2E66F /* CombineControlEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineControlEvent.swift; sourceTree = "<group>"; };
 		C3E406CB28019D1E00F2E66F /* UIBarButtonItem+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Combine.swift"; sourceTree = "<group>"; };
 		C3E406CD28019D8800F2E66F /* CombineControlTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineControlTarget.swift; sourceTree = "<group>"; };
+		C3E406CF2801C6C600F2E66F /* UISwitch+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISwitch+Combine.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				C3E406C72801935A00F2E66F /* UIButton+Combine.swift */,
 				C3E406BD2800BD6A00F2E66F /* UITextField+Combine.swift */,
 				C3E406CB28019D1E00F2E66F /* UIBarButtonItem+Combine.swift */,
+				C3E406CF2801C6C600F2E66F /* UISwitch+Combine.swift */,
 				C3E406BF2800BEA500F2E66F /* CombineControlProperty.swift */,
 				C3E406C9280193C600F2E66F /* CombineControlEvent.swift */,
 				C3E406C52801932500F2E66F /* ControlEventPublisher.swift */,
@@ -254,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3E406CA280193C600F2E66F /* CombineControlEvent.swift in Sources */,
+				C3E406D02801C6C600F2E66F /* UISwitch+Combine.swift in Sources */,
 				C3E406BE2800BD6B00F2E66F /* UITextField+Combine.swift in Sources */,
 				C3E406CE28019D8800F2E66F /* CombineControlTarget.swift in Sources */,
 				C379E6AB27DCF85100B75FFA /* ViewController.swift in Sources */,

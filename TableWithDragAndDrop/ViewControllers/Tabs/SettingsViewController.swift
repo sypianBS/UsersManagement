@@ -10,6 +10,8 @@ import Combine
 
 class SettingsViewController: UIViewController {
     
+    private var cancellables: Set<AnyCancellable> = []
+    
     var appearanceSettingsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,8 +33,8 @@ class SettingsViewController: UIViewController {
         navigationItem.title = "Settings"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let useLineSeparatorsSwitch = makeLabelSwitchInputStackView(labelName: "Use line separators", switchTapTarget: #selector(self.setLineSeparators(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLineSeparators))
-        let useLocalFileIfDownloadFailed = makeLabelSwitchInputStackView(labelName: "Use local file if offline", switchTapTarget: #selector(self.shouldUseLocalFileIfDownloadFailed(_:)), switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed))
+        let useLineSeparatorsSwitch = makeLabelSwitchInputStackView(labelName: "Use line separators", switchTapTarget: setLineSeparators, switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLineSeparators))
+        let useLocalFileIfDownloadFailed = makeLabelSwitchInputStackView(labelName: "Use local file if offline", switchTapTarget: shouldUseLocalFileIfDownloadFailed, switchSetOn: defaults.bool(forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed))
         
         self.view.addSubview(appearanceSettingsStackView)
         appearanceSettingsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
@@ -42,15 +44,15 @@ class SettingsViewController: UIViewController {
         appearanceSettingsStackView.addArrangedSubview(useLocalFileIfDownloadFailed)
     }
     
-    @objc func setLineSeparators(_ sender: UISwitch!){
-        defaults.set(sender.isOn, forKey: UserDefaultsKeys.useLineSeparators)
+    func setLineSeparators(isOn: Bool) {
+        defaults.set(isOn, forKey: UserDefaultsKeys.useLineSeparators)
     }
     
-    @objc func shouldUseLocalFileIfDownloadFailed(_ sender: UISwitch!){
-        defaults.set(sender.isOn, forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed)
+    func shouldUseLocalFileIfDownloadFailed(isOn: Bool) {
+        defaults.set(isOn, forKey: UserDefaultsKeys.useLocalFileIfDownloadFailed)
     }
     
-    private func makeLabelSwitchInputStackView(labelName: String, switchTapTarget: Selector, switchSetOn: Bool) -> UIStackView {
+    private func makeLabelSwitchInputStackView(labelName: String, switchTapTarget: @escaping (Bool) -> Void, switchSetOn: Bool) -> UIStackView {
         let labelTextInputStackView = UIStackView()
         labelTextInputStackView.translatesAutoresizingMaskIntoConstraints = false
         labelTextInputStackView.axis = .horizontal
@@ -61,7 +63,9 @@ class SettingsViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 19)
         
         let uiswitch = UISwitch()
-        uiswitch.addTarget(self, action: switchTapTarget, for: .touchUpInside)
+        uiswitch.isOnPublisher.sink { isOn in
+            switchTapTarget(isOn)
+        }.store(in: &cancellables)
         uiswitch.isOn = switchSetOn
         uiswitch.translatesAutoresizingMaskIntoConstraints = false
         
